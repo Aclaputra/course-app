@@ -36,6 +36,14 @@ class DatabaseSeeder extends Seeder
             'LecturerName' => 'Mitsuri Kabuto',
             'LecturerDept' => 'Calculus'
         ]);
+        Lecturers::create([
+            'LecturerName' => 'Madelaine Pluto',
+            'LecturerDept' => 'Programming'
+        ]);
+        Lecturers::create([
+            'LecturerName' => 'Nolahudi salahudin',
+            'LecturerDept' => 'Pendidikan Dasar'
+        ]);
 
         // Courses.
         Courses::create([
@@ -45,6 +53,18 @@ class DatabaseSeeder extends Seeder
         Courses::create([
             'CourseName' => 'Calculus III',
             'LecturerID' => 1
+        ]);
+        Courses::create([
+            'CourseName' => 'Logika dan Algoritma',
+            'LecturerID' => 2
+        ]);
+        Courses::create([
+            'CourseName' => 'Pancasila',
+            'LecturerID' => 3
+        ]);
+        Courses::create([
+            'CourseName' => 'Struktur Data I',
+            'LecturerID' => 2
         ]);
 
         // Enrollment.
