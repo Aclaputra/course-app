@@ -24,6 +24,7 @@ class StudentCRUDController extends Controller
     $student = new Students;
     $student->StudentName = $request->StudentName;
     $student->StudentYear = $request->StudentYear;
+    $student->user_email = $request->user_email;
     $student->save();
     return redirect()->route('home.index')
       ->with('success', 'Student has been created successfully.');

@@ -40,6 +40,12 @@
 <input type="text" name="StudentYear" class="form-control" placeholder="student Year">
 </div>
 </div>
+<div class="col-xs-12 col-sm-12 col-md-12">
+<div class="form-group">
+<strong>student Email:</strong>
+<input type="text" name"user_email" class="form-control" placeholder="student Email">
+</div>
+</div>
 
 <button type="submit" class="btn btn-primary ml-3">Submit</button>
 </div>

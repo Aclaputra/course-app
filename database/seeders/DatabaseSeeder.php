@@ -48,23 +48,28 @@ class DatabaseSeeder extends Seeder
         // Courses.
         Courses::create([
             'CourseName' => 'Calculus I',
-            'LecturerID' => 1
+            'LecturerID' => 1,
+            'SKS' => 3
         ]);
         Courses::create([
             'CourseName' => 'Calculus III',
-            'LecturerID' => 1
+            'LecturerID' => 1,
+            'SKS' => 3
         ]);
         Courses::create([
             'CourseName' => 'Logika dan Algoritma',
-            'LecturerID' => 2
+            'LecturerID' => 2,
+            'SKS' => 2
         ]);
         Courses::create([
             'CourseName' => 'Pancasila',
-            'LecturerID' => 3
+            'LecturerID' => 3,
+            'SKS' => 2
         ]);
         Courses::create([
             'CourseName' => 'Struktur Data I',
-            'LecturerID' => 2
+            'LecturerID' => 2,
+            'SKS' => 3
         ]);
 
         // Enrollment.
