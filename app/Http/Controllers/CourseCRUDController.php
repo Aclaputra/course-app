@@ -4,19 +4,44 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Enrollment;
+use App\Models\Courses;
+use App\Models\Students;
+use Illuminate\Support\Facades\Auth;
 
 class CourseCRUDController extends Controller
 {
   public function index() {
-    $data['enrollments'] = Enrollment::with('Students')->get();
+    $user = Students::join('users', 'Students.user_email', '=', 'users.email')
+              ->where('Students.user_email', '=', Auth::user()->email)
+              ->select('Students.id', 'users.email', 'Students.StudentName')
+              ->get()->first();
+    $data['coba'] = $user;
+    $data['enrollments'] = Enrollment::join('Students', 'Enrollment.StudentID', '=', 'Students.id')
+                              ->join('Courses', 'Enrollment.CourseID', '=', 'Courses.id')
+                              ->join('Lecturers', 'Courses.LecturerID', '=', 'Lecturers.id')
+                              ->where('Students.user_email', '=', $user->email)
+                              ->select('Enrollment.id', 'Courses.CourseName', 'Students.StudentName', 'Students.user_email', 'Lecturers.LecturerName', 'Lecturers.LecturerDept', 'Courses.sks')
+                              ->get();
+    $data['courses'] = Courses::join('Lecturers', 'Courses.LecturerID', '=', 'Lecturers.id')
+                          ->select('Courses.id', 'Courses.CourseName', 'Lecturers.LecturerName', 'Courses.sks')
+                          ->get();  
+    $data['students'] = Students::orderBy('id', 'desc')->paginate(5);
     return view('student.index', $data);
   }
 
-  public function create() {
-    return view('home.create');
+  public function store(Request $request) {
+    $request->validate([
+      'CourseID' => 'unique'
+    ]);
+
+    $enrollment = new Enrollment;
+    $enrollment->StudentID = $request->StudentID;
+    $enrollment->CourseID = $request->CourseID;
+    $enrollment->save();
+    return redirect()->route('course.index');
   }
 
-  public function store(Request $request) {
+  public function storeDefault(Request $request) {
     $request->validate([
       'StudentName' => 'required',
       'StudentYear' => 'required',
@@ -38,21 +63,13 @@ class CourseCRUDController extends Controller
   }
 
   public function update(Request $request, $id) {
-    $request->validate([
-      'StudentName' => 'required',
-      'StudentYear' => 'required',
-    ]);
-    $student = Students::find($id);
-    $student->StudentName = $request->StudentName;
-    $student->StudentYear = $request->StudentYear;
-    $student->save();
-    return redirect()->route('home.index')
-      ->with('success', 'Student has been updated successfully.');
+    
   }
 
-  public function destroy(Students $home) {
-    $home->delete();
-    return redirect()->route('home.index')
-      ->with('success', 'Students has been deleted successfully');
+  public function destroy(Enrollment $course) {
+
+    $course->delete();
+    return redirect()->route('course.index')
+      ->with('success', 'Enrollment has been deleted successfully');
   }
 }
