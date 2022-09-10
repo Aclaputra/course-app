@@ -14,6 +14,6 @@ class Courses extends Model
     protected $fillable = [
         'CourseName',
         'LecturerID',
-        'SKS'
+        'sks',
     ];
 }

@@ -13,6 +13,6 @@ class Enrollment extends Model
     
     protected $fillable = [
         'StudentID',
-        'CourseID'
+        'CourseID',
     ];
 }
