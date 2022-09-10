@@ -17,9 +17,13 @@ class StudentCRUDController extends Controller
   }
 
   public function store(Request $request) {
+
+    // create user
+
     $request->validate([
       'StudentName' => 'required',
       'StudentYear' => 'required',
+      'user_email' => 'required'
     ]);
     $student = new Students;
     $student->StudentName = $request->StudentName;
