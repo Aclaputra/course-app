@@ -10,32 +10,55 @@ use Illuminate\Support\Facades\Auth;
 
 class CourseCRUDController extends Controller
 {
-  public function index() {
-    $user = Students::join('users', 'Students.user_email', '=', 'users.email')
-              ->where('Students.user_email', '=', Auth::user()->email)
-              ->select('Students.id', 'users.email', 'Students.StudentName')
-              ->get()->first();
-    $data['coba'] = $user;
-    $data['enrollments'] = Enrollment::join('Students', 'Enrollment.StudentID', '=', 'Students.id')
-                              ->join('Courses', 'Enrollment.CourseID', '=', 'Courses.id')
-                              ->join('Lecturers', 'Courses.LecturerID', '=', 'Lecturers.id')
-                              ->where('Students.user_email', '=', $user->email)
-                              ->select('Enrollment.id', 'Courses.CourseName', 'Students.StudentName', 'Students.user_email', 'Lecturers.LecturerName', 'Lecturers.LecturerDept', 'Courses.sks')
-                              ->get();
-    $data['courses'] = Courses::join('Lecturers', 'Courses.LecturerID', '=', 'Lecturers.id')
-                          ->select('Courses.id', 'Courses.CourseName', 'Lecturers.LecturerName', 'Courses.sks')
-                          ->get();  
-    $data['students'] = Students::orderBy('id', 'desc')->paginate(5);
-    return view('student.index', $data);
-  }
+    public function index() {
+      $users = Students::join(
+        'users',
+        'Students.user_email', '=', 'users.email'
+      )->where('Students.user_email', '=', Auth::user()->email)
+        ->select('Students.id', 'users.email', 'Students.StudentName')
+        ->get()->first();
+      
+      $enrollments =  Enrollment::join('Students', 
+          'Enrollment.StudentID', '=', 'Students.id')
+        ->join(
+          'Courses',
+          'Enrollment.CourseID', '=', 'Courses.id')
+        ->join(
+          'Lecturers', 
+          'Courses.LecturerID', '=', 'Lecturers.id'
+        )->where('Students.user_email', '=', $users->email)
+        ->select(
+          'Enrollment.id',
+          'Courses.CourseName',
+          'Students.StudentName',
+          'Students.user_email',
+          'Lecturers.LecturerName',
+          'Lecturers.LecturerDept',
+          'Courses.CourseSC'
+        )->get(); 
+
+      $courses = Courses::join('Lecturers', 'Courses.LecturerID', '=', 'Lecturers.id')
+        ->select(
+          'Courses.id', 
+          'Courses.CourseName', 
+          'Lecturers.LecturerName', 
+          'Courses.CourseSC'
+        )->get();
+
+      $data['coba'] = $users;
+      $data['enrollments'] = $enrollments; 
+      $data['courses'] = $courses;
+
+      $data['students'] = Students::orderBy('id', 'desc')->paginate(5);
+      return view('student.index', $data);
+    }
 
   public function store(Request $request) {
-    $request->validate([
-      'CourseID' => 'unique'
-    ]);
+    // implemement logic validate adding extra course for a student
 
     $enrollment = new Enrollment;
     $enrollment->StudentID = $request->StudentID;
+
     $enrollment->CourseID = $request->CourseID;
     $enrollment->save();
     return redirect()->route('course.index');
@@ -44,11 +67,11 @@ class CourseCRUDController extends Controller
   public function storeDefault(Request $request) {
     $request->validate([
       'StudentName' => 'required',
-      'StudentYear' => 'required',
+      'StudentSemester' => 'required',
     ]);
     $student = new Students;
     $student->StudentName = $request->StudentName;
-    $student->StudentYear = $request->StudentYear;
+    $student->StudentSemester = $request->StudentSemester;
     $student->save();
     return redirect()->route('home.index')
       ->with('success', 'Student has been created successfully.');

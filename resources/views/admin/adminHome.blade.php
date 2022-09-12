@@ -7,7 +7,7 @@
       <div class="card">
         <div class="card-header">Dashboard</div>
         <div class="card-body">
-          You are Admin.
+          You are granted as Admin.
           <!-- template -->
 	  <div class="container mt-2">
 	   <div class="row">
@@ -16,7 +16,8 @@
 	      <h2></h2>
 	     </div>
 	     <div class="pull-right mb-2">
-	      <a class="btn btn-success" href="{{ route('home.create') }}"> Create student</a>
+	      <a class="btn btn-success" href="{{ route('home.create') }}">> Insert a new Student User</a>
+	      <a class="btn btn-success" href="{{ route('student.export') }}">> Export to csv</a>
 	     </div>
 	   </div>
 	 </div>
@@ -27,27 +28,32 @@
 	@endif
 	 <table class="table table-bordered">
 	  <tr>
-	   <th>S.No</th>
-	   <th>student Name</th>
-	   <th>student Year</th>
-	   <th>student Email</th>
-	   <th width="280px">Action</th>
-	  </tr>
+	   <th>No</th>
+	   <th>Student Name</th>
+	   <th>Semester</th>
+	   <th>Student Email</th>
+	   <th>GPA</th>
+	   <th width="200px">Action</th>
+    </tr>
+    <?php $noId = 1; ?>
 	 @foreach ($students as $student)
-	  <tr>
-	    <td>{{ $student->id }}</td>
+	<tr>
+	    <td>{{ $noId }}</td>
 	    <td>{{ $student->StudentName }}</td>
- 	    <td>{{ $student->StudentYear }}</td>
+ 	    <td>{{ $student->StudentSemester }}</td>
 	    <td>{{ $student->user_email }}</td>
+		<td>{{ $student->StudentGPA }}</td>
 	    <td>
-	     <form action="{{ route('home.destroy',$student->id) }}" method="Post">
-	       <a class="btn btn-primary" href="{{ route('home.edit',$student->id) }}">Edit</a>
-	       @csrf
-	       @method('DELETE')
-	       <button type="submit" class="btn btn-danger">Delete</button>
-	     </form>
+       		<form action="{{ route('home.destroy',$student->id) }}" method="Post">
+				<!-- <a class="btn btn-primary" href="{{ route('home.show', $student->id)}}">> Grade</a> -->
+				<a class="btn btn-secondary" href="{{ route('home.edit',$student->id) }}">> Modify</a>
+				@csrf
+				@method('DELETE')
+				<button type="submit" class="btn btn-danger">> Remove</button>
+			</form>
 	    </td>
-	  </tr>
+    </tr>
+    <?php $noId++; ?>
 	 @endforeach
 	 </table>
 	 {!! $students->links() !!}

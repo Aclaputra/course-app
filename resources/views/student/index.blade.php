@@ -5,9 +5,9 @@
   <div class="row justify-content-center">
     <div class="col-md-16">
       <div class="card">
-        <div class="card-header">Dashboard Mahasiswa</div>
+        <div class="card-header">Semester Credit Dashboard</div>
         <div class="card-body">
-          Welcome, {{$coba->StudentName}}. 
+          Hi, {{$coba->StudentName}}. Let's manage your Semester Credits. 
          <!-- template -->
            <div class="container mt-2">
              <div class="row">
@@ -22,19 +22,19 @@
              <p>{{ $message }}</p>
            </div>
           @endif
-          <div style="display: flex;">
-          <div class="mx-4">
+          <div class="d-flex justify-content-between">
+          <div>
            <table class="table table-bordered">
             <tr>
              <th colspan="6">Enrollment</th>
             <tr>
             <tr>
              <th>No</th>
-             <th>matkul diambil</th>
-             <th>dosen pengajar</th>
-             <th>departemen</th>
-             <th>sks</th>
-             <th width="200px">Action</th>
+             <th>Course Taken</th>
+             <th>Professor</th>
+             <th>Department</th>
+             <th>SC</th>
+             <th>Action</th>
             </tr>
             <?php 
               $totalsks = 0; 
@@ -46,16 +46,16 @@
               <td>{{ $enrollment->CourseName }}</td>
               <td>{{ $enrollment->LecturerName }}</td>
               <td>{{ $enrollment->LecturerDept }}</td>
-              <td>{{ $enrollment->sks }}</td>
+              <td>{{ $enrollment->CourseSC }}</td>
               <td>
                <form action="{{ route('course.destroy',$enrollment->id) }}" method="Post">
                  <!-- <a class="btn btn-primary" href="{{ route('course.edit',$enrollment->id) }}">Edit</a> -->
                  @csrf
                  @method('DELETE')
-                 <button type="submit" class="btn btn-danger">Delete</button>
+                 <button type="submit" class="btn btn-danger">></button>
                </form>
               </td>
-              <?php $totalsks += $enrollment->sks; $ycid++; ?>
+              <?php $totalsks += $enrollment->CourseSC; $ycid++; ?>
             </tr>
             <tr>
             @endforeach
@@ -68,15 +68,16 @@
             <tr>
            </table>
           </div>
+          <div><img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fi.pinimg.com%2Foriginals%2F38%2F03%2Faf%2F3803afa55f1870c4e1e721147dd6db50.png&f=1&nofb=1" width="100"/></div>
           <!-- tabel kedua-->
           <div>
            <table class="table table-bordered">
             <tr><th colspan="5">Courses</th></tr>
             <tr>
              <th>No</th>
-             <th>List Matkul</th>
-             <th>Dosen Pengajar</th>
-             <th>Total SKS</th>
+             <th>List Courses</th>
+             <th>Professor</th>
+             <th>SC</th>
              <th>Action</th>
             </tr>
           
@@ -85,7 +86,7 @@
               <td>{{ $course->id }}</td>
               <td>{{ $course->CourseName }}</td>
               <td>{{ $course->LecturerName }}</td>
-              <td>{{ $course->sks }}</td>
+              <td>{{ $course->CourseSC }}</td>
               <td>
               	<form action="{{ route('course.store') }}" method="Post">
                   @csrf

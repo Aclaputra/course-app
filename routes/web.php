@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,16 +14,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])
+  ->name('home');
 Route::get('admin/home', [App\Http\Controllers\HomeController::class, 'adminHome'])
-  ->name('home.index')->middleware('is_admin');
+  ->name('home.index')
+  ->middleware('is_admin');
 
+// C.R.U.D Routes.
 Route::resource('admin/home', App\Http\Controllers\StudentCRUDController::class)
   ->middleware('is_admin');
-Route::resource('home/course', App\Http\Controllers\CourseCRUDController::class);
+Route::resource('home/course', App\Http\Controllers\CourseCRUDController::class)
+  ->middleware('is_student');
+
+Route::get('student_export', [App\Http\Controllers\StudentCRUDController::class, 'get_student_data'])
+  ->name('student.export');

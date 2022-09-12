@@ -28,7 +28,7 @@ class CreateEnrollmentsTable extends Migration
                   ->on('Courses')
                   ->onUpdate('cascade')
                   ->onDelete('cascade');
-            
+            $table->integer('EnrollmentScore')->nullable();
             $table->string('updated_at');
             $table->string('created_at');
         });

@@ -24,11 +24,31 @@
 @endif
 <form action="{{ route('home.store') }}" method="POST" enctype="multipart/form-data">
 @csrf
-<div class="row">
+
+<div class="col-xs-12 col-sm-12 col-md-12">
+<div class="form-group">
+<strong>student Username:</strong>
+<input type="text" name="UserName" class="form-control" placeholder="required">
+@error('name')
+<div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+@enderror
+</div>
+</div>
+
+<div class="col-xs-12 col-sm-12 col-md-12">
+<div class="form-group">
+<strong>student Email:</strong>
+<input type="text" name="UserEmail" class="form-control" placeholder="required">
+@error('name')
+<div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+@enderror
+</div>
+</div>
+
 <div class="col-xs-12 col-sm-12 col-md-12">
 <div class="form-group">
 <strong>student Name:</strong>
-<input type="text" name="StudentName" class="form-control" placeholder="student Name">
+<input type="text" name="StudentName" class="form-control" placeholder="required">
 @error('name')
 <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
 @enderror
@@ -36,16 +56,11 @@
 </div>
 <div class="col-xs-12 col-sm-12 col-md-12">
 <div class="form-group">
-<strong>student Year:</strong>
-<input type="text" name="StudentYear" class="form-control" placeholder="student Year">
+<strong>student Semester:</strong>
+<input type="text" name="StudentSemester" class="form-control" placeholder="required">
 </div>
 </div>
-<div class="col-xs-12 col-sm-12 col-md-12">
-<div class="form-group">
-<strong>student Email:</strong>
-<input type="email" name="user_email" class="form-control" placeholder="student Email">
-</div>
-</div>
+
 
 <button type="submit" class="btn btn-primary ml-3">Submit</button>
 </div>

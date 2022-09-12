@@ -7,6 +7,8 @@ use App\Models\Students;
 use App\Models\Lecturers;
 use App\Models\Courses;
 use App\Models\Enrollment;
+use Database\Seeders\CreateUsersSeeder;
+
 
 class DatabaseSeeder extends Seeder
 {
@@ -17,18 +19,29 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        // create users first before students.
+        $this->call(CreateUsersSeeder::class);
+
         // \App\Models\User::factory(10)->create();
         Students::create([
             'StudentName' => 'Muhammad Acla',
-            'StudentYear' => 3
+            'StudentSemester' => 3,
+            'user_email' => 'acla@gmail.com'
         ]);
         Students::create([
             'StudentName' => 'Myra Tresno Karimah',
-            'StudentYear' => 3
+            'StudentSemester' => 3,
+            'user_email' => 'myra@gmail.com'
         ]);
         Students::create([
             'StudentName' => 'Alca Umaru',
-            'StudentYear' => 1
+            'StudentSemester' => 1,
+            'user_email' => 'alca@gmail.com'
+        ]);
+        Students::create([
+            'StudentName' => 'Yosafat Ardhiansyah',
+            'StudentSemester' => 2,
+            'user_email' => 'yosafat@gmail.com'
         ]);
 
         // Lecturers.
@@ -44,38 +57,63 @@ class DatabaseSeeder extends Seeder
             'LecturerName' => 'Nolahudi salahudin',
             'LecturerDept' => 'Pendidikan Dasar'
         ]);
+        Lecturers::create([
+            'LecturerName' => 'Qassandra Chaidir',
+            'LecturerDept' => 'Cloud'
+        ]);
 
         // Courses.
         Courses::create([
             'CourseName' => 'Calculus I',
             'LecturerID' => 1,
-            'SKS' => 3
+            'CourseSC' => 3
+        ]);
+        Courses::create([
+            'CourseName' => 'Calculus II',
+            'LecturerID' => 1,
+            'CourseSC' => 3
         ]);
         Courses::create([
             'CourseName' => 'Calculus III',
             'LecturerID' => 1,
-            'SKS' => 3
+            'CourseSC' => 3
         ]);
         Courses::create([
-            'CourseName' => 'Logika dan Algoritma',
+            'CourseName' => 'Logic & Algorithms',
             'LecturerID' => 2,
-            'SKS' => 2
+            'CourseSC' => 2
         ]);
         Courses::create([
-            'CourseName' => 'Pancasila',
+            'CourseName' => 'English',
             'LecturerID' => 3,
-            'SKS' => 2
+            'CourseSC' => 2
         ]);
         Courses::create([
-            'CourseName' => 'Struktur Data I',
+            'CourseName' => 'Data Structures I',
             'LecturerID' => 2,
-            'SKS' => 3
+            'CourseSC' => 3
+        ]);
+        Courses::create([
+            'CourseName' => 'Data Structures II',
+            'LecturerID' => 2,
+            'CourseSC' => 3
+        ]);
+        Courses::create([
+            'CourseName' => 'Data Structures III',
+            'LecturerID' => 2,
+            'CourseSC' => 3
+        ]);
+        Courses::create([
+            'CourseName' => 'Cloud Computing',
+            'LecturerID' => 4,
+            'CourseSC' => 3
         ]);
 
         // Enrollment.
         Enrollment::create([
             'StudentID' => 3,
-            'CourseID' => 1
+            'CourseID' => 1,
+            'EnrollmentScore' => 80
         ]);
         Enrollment::create([
             'StudentID' => 1,
@@ -83,7 +121,8 @@ class DatabaseSeeder extends Seeder
         ]);
         Enrollment::create([
             'StudentID' => 2,
-            'CourseID' => 2
+            'CourseID' => 2,
+            'EnrollmentScore' => 60
         ]);
     }
 }

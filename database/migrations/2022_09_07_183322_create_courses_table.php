@@ -18,7 +18,7 @@ class CreateCoursesTable extends Migration
             $table->string('CourseName');
             $table->unsignedBigInteger('LecturerID');
             $table->foreign('LecturerID')->references('id')->on('Lecturers');
-            $table->integer('sks');
+            $table->integer('CourseSC');
             $table->string('updated_at');
             $table->string('created_at');
         });
