@@ -5,8 +5,9 @@ namespace App\Exports;
 use App\Models\Enrollment;
 use App\Models\Students;
 use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\WithHeadings;
 
-class StudentExport implements FromCollection
+class StudentExport implements FromCollection, WithHeadings
 {
     /**
     * @return \Illuminate\Support\Collection
